@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
-import LoginForm from './LoginForm'
-import RegisterForm from './RegisterForm'
+import LoginForm from '../containers/LoginForm'
+import RegisterForm from '../containers/RegisterForm'
 
 class PassportForm extends Component {
   
@@ -12,12 +12,14 @@ class PassportForm extends Component {
 
       <div>
         <LoginForm 
-          reducername={this.props.reducername || 'passport'}
-          name={name + '-login'} />
+          reducername={this.props.reducername}
+          biroreducername={this.props.biroreducername}
+          name={name + 'login'} />
         <hr />
         <RegisterForm 
-          reducername={this.props.reducername || 'passport'}
-          name={name + '-register'} />
+          reducername={this.props.reducername}
+          biroreducername={this.props.biroreducername}
+          name={name + 'register'} />
       </div>
     )
   }

@@ -19,8 +19,11 @@ class RegisterForm extends Component {
     
     return (
       <Form 
+        title="Register" 
         name={this.props.name || 'register'}
-        reducername={this.props.reducername || 'passport'}
+        reducername={this.props.reducername}
+        biroreducername={this.props.biroreducername}
+        onSubmit={this.props.onSubmit}
         schema={SCHEMA} />
     )
   }
