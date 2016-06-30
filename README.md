@@ -18,15 +18,23 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
-
+import { awaitMiddleware as awaitMiddleware } from 'redux-await'
+import { awaitreducer as awaitReducer } from 'redux-await'
+import thunk from 'redux-thunk'
 import { biroreducer, passportreducer, PassportForm, ThemeProvider } from 'passport-service-gui'
 
 const reducer = combineReducers({
   biro: biroreducer,
-  passport: passportreducer
+  passport: passportreducer,
+  await: awaitreducer
 })
 
-const store = createStore(reducer)
+const finalCreateStore = compose(
+  applyMiddleware(
+    thunk,
+    awaitMiddleware
+  )
+)(createStore)
 
 ReactDOM.render(  
   <Provider store={store}>

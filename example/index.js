@@ -2,16 +2,24 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
+import { middleware as awaitMiddleware } from 'redux-await'
+import { reducer as awaitreducer } from 'redux-await'
+import thunk from 'redux-thunk'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-import { biroreducer, PassportForm, ThemeProvider } from '../src'
+import { biroreducer, passportreducer, PassportForm, ThemeProvider } from '../src'
 
 const reducer = combineReducers({
-  biro: biroreducer
+  biro: biroreducer,
+  passport: passportreducer,
+  await: awaitreducer
 })
 
 const finalCreateStore = compose(
-  applyMiddleware.apply(null, []),
+  applyMiddleware(
+    thunk,
+    awaitMiddleware
+  ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore)
 

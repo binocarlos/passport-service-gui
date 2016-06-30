@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'redux-await'
 import { validateForm } from 'biro/actions'
 import { getFormState } from 'biro/tools'
 
+import { postLogin } from '../actions'
 import LoginFormComponent from '../components/LoginForm'
 
 export class LoginForm extends Component {
@@ -11,7 +12,7 @@ export class LoginForm extends Component {
     var formState = nextProps.formstate
 
     if(formState.has_validated_all && formState.valid){
-      this.props.confirmSubmit && this.props.confirmSubmit()
+      this.props.confirmSubmit && this.props.confirmSubmit(formState.data)
     }
   }
 
@@ -33,9 +34,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     onSubmit:function(){
       dispatch(validateForm(ownProps.name))
     },
-    confirmSubmit:function(){
-      console.log('-------------------------------------------');
-      console.log('run form')
+    confirmSubmit:function(data){
+      dispatch(postLogin(ownProps.url, data))
     }
   }
 }
