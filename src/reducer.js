@@ -1,6 +1,6 @@
 import update from 'react/lib/update'
 
-const initialState = {
+export const initialState = {
   forms:{
     login:{
       data:{},
@@ -36,17 +36,22 @@ const initialState = {
   }
 }
 
-export default function user(state = initialState, action) {
+export default function reducer(state = initialState, action = {}) {
+  
   switch (action.type) {
     case 'PASSPORT_FORM_UPDATE':
+
       return update(state, {
         forms: {
           [action.name]: {
-            data:action.data,
-            meta:action.meta
+            $set:{
+              data:action.data,
+              meta:action.meta  
+            }
           }
         }
       })
+      
     default:
       return state
   }
