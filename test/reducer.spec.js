@@ -36,33 +36,5 @@ describe('reducer', () => {
     expect(state.forms.login.meta).toEqual(meta)
 
   })
-/*
-  it('should handle DATASETS_REQUEST', () => {
-    utils.testRequestAction(types.DATASETS_REQUEST, reducer, {
-      expected:utils.addSearch()
-    })
-  })
 
-  it('should handle DATASETS_RECEIVE', () => {
-
-    utils.testReceiveAction(types.DATASETS_RECEIVE, reducer, {
-      expected:utils.addSearch()
-    })
-
-  })
-
-  it('should handle DATASETS_RECEIVE with a search', () => {
-
-    utils.testReceiveAction(types.DATASETS_RECEIVE, reducer, {
-      action:utils.addSearch('apples'),
-      expected:utils.addSearch('apples')
-    })
-
-  })
-
-  it('should handle DATASETS_ERROR', () => {
-
-    utils.testErrorAction(types.DATASETS_ERROR, reducer)
-    
-  })*/
 })
