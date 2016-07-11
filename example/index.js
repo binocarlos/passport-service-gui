@@ -2,24 +2,20 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
-import { middleware as awaitMiddleware } from 'redux-await'
-import { reducer as awaitreducer } from 'redux-await'
-import thunk from 'redux-thunk'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-import { biroreducer, passportreducer, PassportForm, ThemeProvider } from '../src'
+
+import thunk from 'redux-thunk'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { passportreducer, PassportForm } from '../lib'
+
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 
 const reducer = combineReducers({
-  biro: biroreducer,
-  passport: passportreducer,
-  await: awaitreducer
+  passport: passportreducer
 })
 
 const finalCreateStore = compose(
-  applyMiddleware(
-    thunk,
-    awaitMiddleware
-  ),
+  applyMiddleware(thunk),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore)
 
@@ -27,18 +23,16 @@ const store = finalCreateStore(reducer)
 
 ReactDOM.render(  
   <Provider store={store}>
-    <ThemeProvider>
+    <MuiThemeProvider>
 
       <Card>
-        <CardTitle title="Card title" subtitle="Card subtitle" />
         <CardText>
           <PassportForm 
-            name="auth" 
             url="/v1/auth" />
         </CardText>
       </Card>
         
-    </ThemeProvider>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('mount')
 )

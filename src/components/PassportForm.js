@@ -12,16 +12,12 @@ class PassportForm extends Component {
 
       <div>
         <LoginForm 
-          reducername={this.props.reducername}
           url={this.props.url+'/login'}
-          biroreducername={this.props.biroreducername}
-          name={name + 'login'} />
+          reducername={this.props.reducername} />
         <hr />
         <RegisterForm 
-          reducername={this.props.reducername}
           url={this.props.url+'/register'}
-          biroreducername={this.props.biroreducername}
-          name={name + 'register'} />
+          reducername={this.props.reducername} />
       </div>
     )
   }

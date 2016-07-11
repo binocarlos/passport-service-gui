@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react'
 import Biro from 'biro'
-import muiLibrary, { FormLayout, RowLayout } from 'biro-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
+import library from 'biro-material-ui'
+import layout from 'biro-material-ui/layout'
 
 const buttonstyle = {
   marginTop: 12,
@@ -9,25 +10,31 @@ const buttonstyle = {
 
 class Form extends Component {
 
+  submit() {
+
+  }
+  
   render() {
     
     return (
       <div>
 
         <Biro 
-          name={this.props.name}
-          reducername={this.props.biroreducername}
-          library={muiLibrary} 
+          data={this.props.data}
+          meta={this.props.meta}
+          library={library} 
+          layout={layout}
           schema={this.props.schema} 
           validate={this.props.validate} 
-          formrenderer={FormLayout}
-          rowrenderer={RowLayout} />
+          update={this.props.update}
+        />
 
         <RaisedButton 
           label={this.props.title} 
           primary={true} 
-          onClick={this.props.onSubmit}
-          style={buttonstyle} />
+          onClick={this.submit.bind(this)}
+          style={buttonstyle} 
+        />
 
       </div>
     )
