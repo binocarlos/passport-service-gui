@@ -18,33 +18,29 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
-import { awaitMiddleware as awaitMiddleware } from 'redux-await'
-import { awaitreducer as awaitReducer } from 'redux-await'
 import thunk from 'redux-thunk'
-import { biroreducer, passportreducer, PassportForm, ThemeProvider } from 'passport-service-gui'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { passportreducer, PassportForm } from 'passport-service-gui'
 
 const reducer = combineReducers({
-  biro: biroreducer,
-  passport: passportreducer,
-  await: awaitreducer
+  passport: passportreducer
 })
 
 const finalCreateStore = compose(
-  applyMiddleware(
-    thunk,
-    awaitMiddleware
-  )
+  applyMiddleware(thunk)
 )(createStore)
+
+const store = finalCreateStore(reducer)
 
 ReactDOM.render(  
   <Provider store={store}>
-    <ThemeProvider>
+    <MuiThemeProvider>
 
       <PassportForm 
-        name="auth" 
+        reducername="passport" 
         url="/v1/auth" />
         
-    </ThemeProvider>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('mount')
 )
@@ -54,32 +50,22 @@ NOTE - if you are using other biro forms in your project - you can use the stand
 
 ## components
 
+All components have the same 2 options:
+
+ * url - the base url of the backend passport-service (default = '/v1/auth')
+ * reducername - where you mounted the passport reducer (default = 'passport')
+
 #### PassportForm
 
 A full 2 tabbed form with login and register options.
-
- * name - the name of the passport form (default = 'auth')
- * url - the base url of the backend passport-service (default = '/v1/auth')
- * reducername - where you mounted the passport reducer (default = 'passport')
- * biroreducername - where you mounted the biro reducer (default = 'biro')
 
 #### LoginForm
 
 A single tabbed form with just the login option.
 
- * name - the name of the passport form (default = 'login')
- * url - the base url of the backend passport-service (default = '/v1/auth')
- * reducername - where you mounted the passport reducer (default = 'passport')
- * biroreducername - where you mounted the biro reducer (default = 'biro')
-
 #### RegisterForm
 
 A single tabbed form with just the register option.
-
- * name - the name of the passport form (default = 'register')
- * url - the base url of the backend passport-service (default = '/v1/auth')
- * reducername - where you mounted the passport reducer (default = 'passport')
- * biroreducername - where you mounted the biro reducer (default = 'biro')
 
 ## license
 
