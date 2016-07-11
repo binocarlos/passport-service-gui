@@ -18,7 +18,9 @@ function apiRequest(actions, req, url, data) {
 
   return dispatch => {
 
-    dispatch({ type: actions[0], url, data })
+    const reqAction = { type: actions[0], url }
+    if(data) reqAction.data = data
+    dispatch(reqAction)
 
     return req
       .then(
