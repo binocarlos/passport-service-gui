@@ -58,9 +58,10 @@
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.0",
     "react-shallow-testutils": "^1.0.0",
+    "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.1.6",
-    "redux-thunk": "^2.1.0",
     "redux-mock-store": "^1.1.2",
+    "redux-thunk": "^2.1.0",
     "webpack": "^1.12.12"
   }
 }

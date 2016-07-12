@@ -6,7 +6,7 @@ export function validateEmail(val = ''){
 
 export function validatePassword(val = ''){
   if(val.length<8) return 'must be at least 8 chars'
-  if(!val.match(/\s/)) return 'cannot contain spaces'
+  if(val.match(/\s/)) return 'cannot contain spaces'
   return null
 }
 
