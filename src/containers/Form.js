@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import { formupdate } from '../actions'
-import FormComponent from '../components/Form'
+import FormComponent from 'kettle-ui/lib/Form'
 
 export class Form extends Component {
 
@@ -30,7 +30,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     update:function(data, meta){
       dispatch(formupdate(ownProps.name, data, meta))
     },
-    submit:function(){
+    submit:function(data, meta){
       console.log('-------------------------------------------');
       console.log(ownProps.url)
     }
