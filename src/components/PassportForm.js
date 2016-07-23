@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
-import LoginForm from './LoginForm'
-import RegisterForm from './RegisterForm'
+import LoginForm from '../containers/LoginForm'
+import RegisterForm from '../containers/RegisterForm'
 
 class PassportForm extends Component {
   

@@ -14,7 +14,12 @@ export class Form extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+
+  // if the user has installed the reducer somewhere other
+  // than 'passport'
   const reducername = ownProps.reducername || 'passport'
+
+  // this is 'login' or 'register'
   const formname = ownProps.name
   const formstate = state[reducername].forms[formname]
   const apistate = state[reducername].api[formname]
