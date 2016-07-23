@@ -39,7 +39,7 @@ function mapDispatchToProps(dispatch, ownProps) {
       if(!meta.valid){
         return dispatch(formerror(ownProps.name, data, meta))
       }
-      
+      dispatch(ownProps.submit(data, meta));
     }
   }
 }

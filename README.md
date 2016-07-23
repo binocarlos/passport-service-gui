@@ -67,6 +67,24 @@ A single tabbed form with just the login option.
 
 A single tabbed form with just the register option.
 
+## Developer setup
+
+You can run the passport auth server using the `docker-compose.yml`
+
+Combine this with `npm run watch` for a hot reloading gui against a live server.
+
+```
+$ npm run watch
+```
+
+Then:
+
+```
+$ docker-compose up
+```
+
+Then visit [http://localhost](http://localhost)
+
 ## license
 
 MIT
