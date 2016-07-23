@@ -4,7 +4,7 @@ import * as actions from '../src/actions'
 function defaultFormState(){
   return {
     data:{},
-    meta:{}
+    meta:null
   }
 }
 

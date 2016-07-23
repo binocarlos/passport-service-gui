@@ -12,6 +12,20 @@ export function formupdate(name, data, meta) {
   }
 }
 
+export function formerror(name, data, meta) {
+  meta = JSON.parse(JSON.stringify(meta))
+  Object.keys(meta.fields || {}).forEach(function(key){
+    meta.fields[key].dirty = true
+  })
+  meta.dirty = true
+  return {
+    type: PASSPORT_FORM_UPDATE,
+    name,
+    data,
+    meta
+  }
+}
+
 // with some actions and a fetch promise
 // return the thunk
 function apiRequest(actions, req, url, data) {
