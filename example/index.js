@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
@@ -29,7 +29,7 @@ injectTapEventPlugin()
 ReactDOM.render(  
   <Provider store={store}>
     <MuiThemeProvider>
-      <Router history={browserHistory}>
+      <Router history={hashHistory}>
         <Route path="/" component={Wrapper}>
           <IndexRoute component={Home} />
           <Route path="about" component={About}/>

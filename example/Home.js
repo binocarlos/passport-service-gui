@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import { Link } from 'react-router'
 
 class Home extends Component {
   
@@ -7,7 +8,8 @@ class Home extends Component {
     return (
 
       <div>
-        This is the homepage
+        This is the homepage<hr />
+        <Link to='/about'>About</Link>
       </div>
     )
   }

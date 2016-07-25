@@ -45,7 +45,7 @@ http {
         location / {
 
             root   /www;
-            index  index.html index.htm;
+            index  index.html index.htm;            
 
         }
     }
