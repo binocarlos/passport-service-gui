@@ -1,8 +1,12 @@
-require('es6-promise').polyfill()
-require('isomorphic-fetch')
+import superagent from 'superagent'
 
 export const PASSPORT_FORM_UPDATE = 'PASSPORT_FORM_UPDATE'
 
+/*
+
+  form actions
+  
+*/
 export function formupdate(name, data, meta) {
   return {
     type: PASSPORT_FORM_UPDATE,
@@ -26,98 +30,170 @@ export function formerror(name, data, meta) {
   }
 }
 
-// with some actions and a fetch promise
-// return the thunk
-function apiRequest(actions, req, url, data) {
-
-  return dispatch => {
-
-    const reqAction = { type: actions[0], url }
-    if(data) reqAction.data = data
-    dispatch(reqAction)
-
-    return req
-      .then(
-        data => dispatch({ type: actions[1], data }),
-        error => dispatch({ type: actions[2], error })
-      )    
+export function formservererror(name, data, meta, servererrors) {
+  meta = JSON.parse(JSON.stringify(meta))
+  Object.keys(servererrors || {}).forEach(function(key){
+    meta.fields[key].dirty = true
+    meta.fields[key].valid = false
+    meta.fields[key].error = servererrors[key].message
+  })
+  meta.dirty = true
+  meta.valid = false
+  return {
+    type: PASSPORT_FORM_UPDATE,
+    name,
+    data,
+    meta
   }
 }
 
-// generate a POST JSON request
-function postJSON(url, data){
-  return fetch(url, {
-    method:'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(res => res.json())
+/*
+
+  request helpers
+  
+*/
+function requestAction(action, url, data){
+  return {
+    type: action,
+    url,
+    data
+  }
 }
 
-// generate a GET JSON request
-function getJSON(url){
-  return fetch(url, {
-    method:'GET',
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-  .then(res => res.json())
+function responseAction(action, data){
+  return {
+    type: action,
+    data
+  }
 }
 
+function errorAction(action, error){
+  return {
+    type:action,
+    error
+  }
+}
+
+// check if the http status code is OK
+// if not then return the res.body error packet
+function getResponseErrors(res){
+  return res.status >= 200 && res.status < 300 ?
+    null : res.body
+}
+
+/*
+
+  login
+  
+*/
 export const PASSPORT_LOGIN_REQUEST = 'PASSPORT_LOGIN_REQUEST'
 export const PASSPORT_LOGIN_RESPONSE = 'PASSPORT_LOGIN_RESPONSE'
 export const PASSPORT_LOGIN_ERROR = 'PASSPORT_LOGIN_ERROR'
 
-export function login(url, data) {
+export function login(url, data, meta) {
 
-  var req = postJSON(url, data)  
+  return dispatch => {
 
-  var actions = [
-    PASSPORT_LOGIN_REQUEST,
-    PASSPORT_LOGIN_RESPONSE,
-    PASSPORT_LOGIN_ERROR
-  ]
+    dispatch(requestAction(PASSPORT_LOGIN_REQUEST, url, data))
 
-  return apiRequest(actions, req, url, data)
+    superagent
+      .post(url)
+      .set('Content-Type', 'application/json')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if(err){
+
+          // do we have a normal error or are there field errors 
+          // in the JSON packet
+          if(err.response && err.response.headers && err.response.headers['content-type']=='application/json'){
+            const servererrors = err.response.body && err.response.body.errors ? err.response.body.errors : {}
+            dispatch(formservererror('login', data, meta, servererrors))
+            dispatch(errorAction(PASSPORT_LOGIN_ERROR, 'server error'))
+          }
+          else{
+            dispatch(errorAction(PASSPORT_LOGIN_ERROR, err.message))
+          }
+
+        }
+        else{
+          dispatch(responseAction(PASSPORT_LOGIN_RESPONSE, res.body))
+        }
+      })
+
+  }
 
 }
 
+
+/*
+
+  register
+  
+*/
 export const PASSPORT_REGISTER_REQUEST = 'PASSPORT_REGISTER_REQUEST'
 export const PASSPORT_REGISTER_RESPONSE = 'PASSPORT_REGISTER_RESPONSE'
 export const PASSPORT_REGISTER_ERROR = 'PASSPORT_REGISTER_ERROR'
 
-export function register(url, data) {
+export function register(url, data, meta) {
 
-  var req = postJSON(url, data)  
+  return dispatch => {
 
-  var actions = [
-    PASSPORT_LOGIN_REQUEST,
-    PASSPORT_LOGIN_RESPONSE,
-    PASSPORT_LOGIN_ERROR
-  ]
+    dispatch(requestAction(PASSPORT_REGISTER_REQUEST, url, data))
 
-  return apiRequest(actions, req, url, data)
+    superagent
+      .post(url)
+      .set('Content-Type', 'application/json')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+
+        if(err){
+
+          // do we have a normal error or are there field errors 
+          // in the JSON packet
+          if(err.response && err.response.headers && err.response.headers['content-type']=='application/json'){
+            const servererrors = err.response.body && err.response.body.errors ? err.response.body.errors : {}
+            dispatch(formservererror('register', data, meta, servererrors))
+            dispatch(errorAction(PASSPORT_REGISTER_ERROR, 'server error'))
+          }
+          else{
+            dispatch(errorAction(PASSPORT_REGISTER_ERROR, err.message))
+          }
+
+        }
+        else{
+          dispatch(responseAction(PASSPORT_REGISTER_RESPONSE, res.body))
+        }
+
+      })
+  }
 
 }
 
+/*
+
+  status
+  
+*/
 export const PASSPORT_STATUS_REQUEST = 'PASSPORT_STATUS_REQUEST'
 export const PASSPORT_STATUS_RESPONSE = 'PASSPORT_STATUS_RESPONSE'
 export const PASSPORT_STATUS_ERROR = 'PASSPORT_STATUS_ERROR'
 
 export function status(url) {
 
-  var req = getJSON(url)  
+  return dispatch => {
 
-  var actions = [
-    PASSPORT_STATUS_REQUEST,
-    PASSPORT_STATUS_RESPONSE,
-    PASSPORT_STATUS_ERROR
-  ]
+    dispatch(requestAction(PASSPORT_STATUS_REQUEST, url))
 
-  return apiRequest(actions, req, url)
+    superagent
+      .get(url)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if(err) return dispatch(errorAction(PASSPORT_STATUS_ERROR, err.message))
+        dispatch(responseAction(PASSPORT_STATUS_RESPONSE, res.body))
+      })
+
+  }
 
 }

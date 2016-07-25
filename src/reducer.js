@@ -48,7 +48,7 @@ function requestHandler(name){
   }
 }
 
-function responseHandler(name, state, action){
+function responseHandler(name){
   return (state, action) => {
     return update(state, {
       api: {
@@ -65,7 +65,7 @@ function responseHandler(name, state, action){
   }
 }
 
-function errorHandler(name, state, action){
+function errorHandler(name){
   return (state, action) => {
     return update(state, {
       api: {
@@ -95,12 +95,19 @@ function formHandler(state, action){
   })
 }
 
-function getHandlers(name){
+function getHandlers(name, handlers = {}){
   const uppername = name.toUpperCase()
+
+  const useHandlers = Object.assign({}, {
+    request:requestHandler(name),
+    response:responseHandler(name),
+    error:errorHandler(name)
+  }, handlers)
+
   return {
-    ['PASSPORT_' + uppername + '_REQUEST']:requestHandler(name),
-    ['PASSPORT_' + uppername + '_RESPONSE']:responseHandler(name),
-    ['PASSPORT_' + uppername + '_ERROR']:errorHandler(name)
+    ['PASSPORT_' + uppername + '_REQUEST']:useHandlers.request,
+    ['PASSPORT_' + uppername + '_RESPONSE']:useHandlers.response,
+    ['PASSPORT_' + uppername + '_ERROR']:useHandlers.error
   }
 }
 

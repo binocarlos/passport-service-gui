@@ -11,7 +11,7 @@ export default class LoginForm extends Component {
       schema:LOGIN_SCHEMA,
       name:'login',
       submit:(data, meta) => {
-        return login(this.props.url, data)
+        return login(this.props.url, data, meta)
       },
       ...this.props
     }
