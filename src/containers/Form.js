@@ -26,7 +26,8 @@ function mapStateToProps(state, ownProps) {
   return {
     data:formstate.data,
     meta:formstate.meta,
-    api:apistate
+    error:apistate.error,
+    loading:apistate.loading
   }
 }
 
