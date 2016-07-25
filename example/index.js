@@ -27,7 +27,7 @@ injectTapEventPlugin()
 
 const styles = {
   container:{
-    marginTop:'20px'
+    marginTop:'100px'
   }
 }
 
@@ -43,12 +43,12 @@ ReactDOM.render(
         />
         <Container style={styles.container}>
           <Row>
-            <Col md={3}></Col>
-            <Col md={6}>
+            <Col md={2}></Col>
+            <Col md={8}>
               <PassportForm 
                 url="/v1/auth" />
             </Col>
-            <Col md={6}></Col>
+            <Col md={2}></Col>
           </Row>
 
         </Container>
