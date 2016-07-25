@@ -1,15 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import AppBar from 'material-ui/AppBar'
-import { Container, Row, Col } from 'kettle-ui/lib/Grid'
 
-import { passportreducer, PassportForm } from '../src'
+import { passportreducer } from '../src'
+import Wrapper from './Wrapper'
+import Home from './Home'
+import About from './About'
 
 const reducer = combineReducers({
   passport: passportreducer
@@ -24,36 +26,15 @@ const store = finalCreateStore(reducer)
 
 injectTapEventPlugin()
 
-
-const styles = {
-  container:{
-    marginTop:'100px'
-  }
-}
-
 ReactDOM.render(  
   <Provider store={store}>
     <MuiThemeProvider>
-
-      <div>
-        <AppBar
-          showMenuIconButton={false}
-          title="Login App"
-          zDepth={2}
-        />
-        <Container style={styles.container}>
-          <Row>
-            <Col md={2}></Col>
-            <Col md={8}>
-              <PassportForm 
-                url="/v1/auth" />
-            </Col>
-            <Col md={2}></Col>
-          </Row>
-
-        </Container>
-      </div>
-
+      <Router history={browserHistory}>
+        <Route path="/" component={Wrapper}>
+          <IndexRoute component={Home} />
+          <Route path="about" component={About}/>
+        </Route>
+      </Router>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('mount')

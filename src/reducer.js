@@ -95,14 +95,41 @@ function formHandler(state, action){
   })
 }
 
+// reset the 'have loaded user data'
+// this will re-trigger any UserSwitches
+function resetStatusHandler(state, action){
+  return update(state, {
+    api: {
+      status: {
+        $set:{
+          loading:false,
+          loaded:false
+        }
+      }
+    }
+  })
+}
+
 function getHandlers(name, handlers = {}){
   const uppername = name.toUpperCase()
 
-  const useHandlers = Object.assign({}, {
+  const defaultHandlers = {
     request:requestHandler(name),
     response:responseHandler(name),
     error:errorHandler(name)
-  }, handlers)
+  }
+
+  var useHandlers = {}
+
+  Object.keys(defaultHandlers || {}).forEach(function(key){
+    useHandlers[key] = (state, action) => {
+      state = defaultHandlers[key](state, action)
+      if(handlers[key]){
+        state = handlers[key](state, action)
+      }
+      return state
+    }
+  })
 
   return {
     ['PASSPORT_' + uppername + '_REQUEST']:useHandlers.request,
@@ -112,7 +139,8 @@ function getHandlers(name, handlers = {}){
 }
 
 const handlers = {
-  [actions.PASSPORT_FORM_UPDATE]:formHandler,    
+  [actions.PASSPORT_FORM_UPDATE]:formHandler,
+  [actions.PASSPORT_STATUS_RESET]:resetStatusHandler,
   ...getHandlers('login'),
   ...getHandlers('register'),
   ...getHandlers('status')

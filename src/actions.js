@@ -47,6 +47,17 @@ export function formservererror(name, data, meta, servererrors) {
   }
 }
 
+export const PASSPORT_STATUS_RESET = 'PASSPORT_STATUS_RESET'
+
+// action to clear the current status api response
+// this will trigger it to load again without knowing the url
+// used once the user has logged in to trigger to re-fetch of user status
+export function resetStatus(){
+  return {
+    type:PASSPORT_STATUS_RESET
+  }
+}
+
 /*
 
   request helpers
@@ -109,15 +120,20 @@ export function login(url, data, meta) {
           if(err.response && err.response.headers && err.response.headers['content-type']=='application/json'){
             const servererrors = err.response.body && err.response.body.errors ? err.response.body.errors : {}
             dispatch(formservererror('login', data, meta, servererrors))
-            dispatch(errorAction(PASSPORT_LOGIN_ERROR, 'server error'))
+            dispatch(errorAction(PASSPORT_LOGIN_ERROR, 'incorrect details'))
           }
           else{
-            dispatch(errorAction(PASSPORT_LOGIN_ERROR, err.message))
+            dispatch(errorAction(PASSPORT_LOGIN_ERROR, 'incorrect details'))
           }
 
         }
         else{
           dispatch(responseAction(PASSPORT_LOGIN_RESPONSE, res.body))
+
+          // this will re-load the /v1/auth/status data
+          if(res.body.loggedIn){
+            dispatch(resetStatus())
+          }
         }
       })
 
@@ -190,8 +206,12 @@ export function status(url) {
       .get(url)
       .set('Accept', 'application/json')
       .end((err, res) => {
-        if(err) return dispatch(errorAction(PASSPORT_STATUS_ERROR, err.message))
-        dispatch(responseAction(PASSPORT_STATUS_RESPONSE, res.body))
+        if(res.status<500){
+          dispatch(responseAction(PASSPORT_STATUS_RESPONSE, res.body))
+        }
+        else{
+          dispatch(errorAction(PASSPORT_STATUS_ERROR, err ? err.message : res.body))
+        }
       })
 
   }
