@@ -1,6 +1,5 @@
-export { default as PassportForm } from './containers/PassportForm'
+export { default as PassportForm } from './components/PassportForm'
 export { default as LoginForm } from './containers/LoginForm'
 export { default as RegisterForm } from './containers/RegisterForm'
-export { default as ThemeProvider } from 'material-ui/styles/MuiThemeProvider'
-export { default as biroreducer } from 'biro/reducer'
+export { default as UserSwitch } from './containers/UserSwitch'
 export { default as passportreducer } from './reducer'

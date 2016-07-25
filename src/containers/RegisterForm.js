@@ -1,46 +1,22 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'redux-await'
-import { validateForm } from 'biro/actions'
-import { getFormState } from 'biro/tools'
+import { REGISTER_SCHEMA } from '../schema'
+import { register } from '../actions'
+import Form from './Form'
 
-import { postRegister } from '../actions'
-import RegisterFormComponent from '../components/RegisterForm'
-
-export class RegisterForm extends Component {
-
-  componentWillReceiveProps(nextProps) {
-    var formState = nextProps.formstate
-
-    if(formState.has_validated_all && formState.valid){
-      this.props.confirmSubmit && this.props.confirmSubmit(formState.data)
-    }
-  }
+export default class RegisterForm extends Component {
 
   render() {
+    const props = {
+      title:'Register',
+      schema:REGISTER_SCHEMA,
+      name:'register',
+      submit:(data, meta) => {
+        return register(this.props.url, data, meta)
+      },
+      ...this.props
+    }
     return (
-      <RegisterFormComponent {...this.props} />
+      <Form { ...props } />
     )
   }
 }
-
-function mapStateToProps(state, ownProps) {
-  return {
-    formstate:getFormState(state, ownProps)
-  }
-}
-
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    onSubmit:function(){
-      dispatch(validateForm(ownProps.name))
-    },
-    confirmSubmit:function(data){
-      dispatch(postRegister(ownProps.url, data))
-    }
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegisterForm)
