@@ -35,11 +35,11 @@
   },
   "homepage": "https://github.com/binocarlos/passport-service-gui",
   "dependencies": {
-    "biro": "^3.1.0",
-    "biro-material-ui": "^2.1.0",
-    "kettle-ui": "^2.0.0",
-    "material-ui": "^0.15.1",
-    "react": "^15.2.1",
+    "biro": "^3.1.4",
+    "biro-material-ui": "^2.1.2",
+    "kettle-ui": "^3.0.0",
+    "material-ui": "^0.15.4",
+    "react": "^15.3.1",
     "superagent": "^2.1.0",
     "valid-email": "0.0.2"
   },
