@@ -1,6 +1,6 @@
 {
   "name": "passport-service-gui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "material-ui for passport-service login and register",
   "main": "index.js",
   "scripts": {
