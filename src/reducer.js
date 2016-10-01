@@ -1,5 +1,5 @@
 import update from 'react/lib/update'
-import * as actions from '../src/actions'
+import * as actions from './actions'
 
 function defaultFormState(){
   return {
