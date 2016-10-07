@@ -185,6 +185,63 @@ props:
  * user - the component to render if the user is logged in
  * guest - the component to render if the user is not logged in
 
+## tools
+
+Some useful functions for dealing with passport-service-gui state objects.
+
+#### `getUser`
+
+Given a reducer name (defaults to 'passport') - return an object with the current user information extracted from the passort-service-gui reducer state object:
+
+```javascript
+{
+  loading:false,
+  loaded:true,
+  loggedIn:true,
+  "user": {
+    "_id": "576bce9a1218f30100379b96",
+    "__v": 0,
+    "provider": "local",
+    "username": "",
+    "email": "g@g.com",
+    "type": "user",
+    "name": ""
+  }
+}
+```
+
+Here is how to include it in a container component:
+
+```javascript
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { tools } from 'passport-service-gui'
+
+export class MyComponent extends Component {
+  render() {
+    return (
+      <div></div>
+    )
+  }
+}
+
+function mapStateToProps(state, ownProps) {
+  const reducername = ownProps.reducername || 'passport'
+  return {
+    passport:tools.getUser(state, reducername)
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {}
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyComponent)
+```
+
 ## reducer
 
 An example data structure under the `passport` reducer key:
