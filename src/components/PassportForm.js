@@ -8,19 +8,24 @@ class PassportForm extends Component {
   render() {
 
     var name = this.props.name || 'auth'
+    var styles = this.props.styles || {}
     
     return (
 
       <Tabs>
         <Tab label="Login">
-          <LoginForm 
-            url={this.props.url+'/login'}
-            reducername={this.props.reducername} />
+          <div style={styles.formwrapper}>
+            <LoginForm 
+              url={this.props.url+'/login'}
+              reducername={this.props.reducername} />
+          </div>
         </Tab>
         <Tab label="Register">
-          <RegisterForm 
-            url={this.props.url+'/register'}
-            reducername={this.props.reducername} />
+          <div style={styles.formwrapper}>
+            <RegisterForm 
+              url={this.props.url+'/register'}
+              reducername={this.props.reducername} />
+          </div>
         </Tab>
       </Tabs>
     )
