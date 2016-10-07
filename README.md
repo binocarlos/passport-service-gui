@@ -52,7 +52,7 @@ NOTE - if you are using other biro forms in your project - you can use the stand
 
 ## Form Components
 
-All for components have the same 2 options:
+All form components have the same 2 options:
 
  * url - the base url of the backend passport-service (default = '/v1/auth')
  * reducername - where you mounted the passport reducer (default = 'passport')
@@ -61,6 +61,9 @@ All for components have the same 2 options:
 
 A full 2 tabbed form with login and register options.
 
+ * styles - an object with styles that are used for the tabs
+   * formwrapper - the div that wraps the login and register forms
+
 #### LoginForm
 
 A single tabbed form with just the login option.
@@ -68,6 +71,52 @@ A single tabbed form with just the login option.
 #### RegisterForm
 
 A single tabbed form with just the register option.
+
+## UserLoader
+
+A container component that is used to load the current user status.
+
+The user data can then be loaded from another container component.
+
+```javascript
+import React, { PropTypes, Component } from 'react'
+import { UserLoader } from '../src'
+import App from './App'
+
+class Wrapper extends Component {
+  
+  render() {
+
+    return (
+
+      <UserLoader 
+        url="/v1/auth/status">
+        <App {...appprops} />
+      </UserLoader>
+
+    )
+
+  }
+
+}
+
+export default Wrapper
+```
+
+If you include this container component anywhere in your application - you can use the following `mapStateToProps` function in another container to decide what to do:
+
+```javascript
+function mapStateToProps(state, ownProps) {
+  const reducername = ownProps.reducername || 'passport'
+  const apistate = state[reducername].api.status
+  return {
+    loading:apistate.loading,
+    loaded:apistate.loaded,
+    loggedIn:apistate.data ? apistate.data.loggedIn : false,
+    user:apistate.data ? apistate.data.user : null
+  }
+}
+```
 
 ## UserSwitch
 
