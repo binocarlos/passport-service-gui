@@ -185,7 +185,7 @@ props:
  * user - the component to render if the user is logged in
  * guest - the component to render if the user is not logged in
 
-## tools
+## passporttools
 
 Some useful functions for dealing with passport-service-gui state objects.
 
@@ -215,7 +215,7 @@ Here is how to include it in a container component:
 ```javascript
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { tools } from 'passport-service-gui'
+import { passporttools } from 'passport-service-gui'
 
 export class MyComponent extends Component {
   render() {
@@ -228,7 +228,7 @@ export class MyComponent extends Component {
 function mapStateToProps(state, ownProps) {
   const reducername = ownProps.reducername || 'passport'
   return {
-    passport:tools.getUser(state, reducername)
+    passport:passporttools.getUser(state, reducername)
   }
 }
 
