@@ -196,7 +196,7 @@ export const PASSPORT_STATUS_REQUEST = 'PASSPORT_STATUS_REQUEST'
 export const PASSPORT_STATUS_RESPONSE = 'PASSPORT_STATUS_RESPONSE'
 export const PASSPORT_STATUS_ERROR = 'PASSPORT_STATUS_ERROR'
 
-export function status(url) {
+export function status(url, done) {
 
   return dispatch => {
 
@@ -208,6 +208,7 @@ export function status(url) {
       .end((err, res) => {
         if(res.status<500){
           dispatch(responseAction(PASSPORT_STATUS_RESPONSE, res.body))
+          done && done(res.body)
         }
         else{
           dispatch(errorAction(PASSPORT_STATUS_ERROR, err ? err.message : res.body))

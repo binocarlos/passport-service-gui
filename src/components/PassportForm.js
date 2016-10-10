@@ -14,14 +14,14 @@ class PassportForm extends Component {
 
       <Tabs>
         <Tab label="Login">
-          <div style={styles.formwrapper}>
+          <div style={Object.assign({}, styles.loginwrapper, styles.formwrapper)}>
             <LoginForm 
               url={this.props.url+'/login'}
               reducername={this.props.reducername} />
           </div>
         </Tab>
         <Tab label="Register">
-          <div style={styles.formwrapper}>
+          <div style={Object.assign({}, styles.registerwrapper, styles.formwrapper)}>
             <RegisterForm 
               url={this.props.url+'/register'}
               reducername={this.props.reducername} />

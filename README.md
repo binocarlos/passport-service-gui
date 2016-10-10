@@ -78,6 +78,9 @@ A container component that is used to load the current user status.
 
 The user data can then be loaded from another container component.
 
+ * url - the url used to load the user status ('/v1/auth/status')
+ * onLoaded - a function to run when the status has been loaded
+
 ```javascript
 import React, { PropTypes, Component } from 'react'
 import { UserLoader } from '../src'

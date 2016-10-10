@@ -37,7 +37,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     loaduser:function(){
-      dispatch(status(ownProps.url))
+      dispatch(status(ownProps.url, ownProps.onLoaded))
     }
   }
 }
