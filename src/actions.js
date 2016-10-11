@@ -101,7 +101,11 @@ export const PASSPORT_LOGIN_REQUEST = 'PASSPORT_LOGIN_REQUEST'
 export const PASSPORT_LOGIN_RESPONSE = 'PASSPORT_LOGIN_RESPONSE'
 export const PASSPORT_LOGIN_ERROR = 'PASSPORT_LOGIN_ERROR'
 
-export function login(url, data, meta) {
+export function login(opts = {}, done) {
+
+  const url = opts.url
+  const data = opts.data
+  const meta = opts.meta
 
   return dispatch => {
 
@@ -126,14 +130,13 @@ export function login(url, data, meta) {
             dispatch(errorAction(PASSPORT_LOGIN_ERROR, 'incorrect details'))
           }
 
+          done && done(err)
+
         }
         else{
           dispatch(responseAction(PASSPORT_LOGIN_RESPONSE, res.body))
 
-          // this will re-load the /v1/auth/status data
-          if(res.body.loggedIn){
-            dispatch(resetStatus())
-          }
+          done && done(null, res.body, opts)
         }
       })
 
@@ -151,7 +154,11 @@ export const PASSPORT_REGISTER_REQUEST = 'PASSPORT_REGISTER_REQUEST'
 export const PASSPORT_REGISTER_RESPONSE = 'PASSPORT_REGISTER_RESPONSE'
 export const PASSPORT_REGISTER_ERROR = 'PASSPORT_REGISTER_ERROR'
 
-export function register(url, data, meta) {
+export function register(opts = {}, done) {
+
+  const url = opts.url
+  const data = opts.data
+  const meta = opts.meta
 
   return dispatch => {
 
@@ -177,9 +184,13 @@ export function register(url, data, meta) {
             dispatch(errorAction(PASSPORT_REGISTER_ERROR, err.message))
           }
 
+          done && done(err)
+
         }
         else{
           dispatch(responseAction(PASSPORT_REGISTER_RESPONSE, res.body))
+
+          done && done(null, res.body, opts)
         }
 
       })

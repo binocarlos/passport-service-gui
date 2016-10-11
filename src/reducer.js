@@ -119,7 +119,7 @@ function getHandlers(name, handlers = {}){
     error:errorHandler(name)
   }
 
-  var useHandlers = {}
+  let useHandlers = {}
 
   Object.keys(defaultHandlers || {}).forEach(function(key){
     useHandlers[key] = (state, action) => {

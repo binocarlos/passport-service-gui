@@ -11,7 +11,11 @@ export default class RegisterForm extends Component {
       schema:REGISTER_SCHEMA,
       name:'register',
       submit:(data, meta) => {
-        return register(this.props.url, data, meta)
+        return register({
+          url:this.props.url,
+          data:data,
+          meta:meta
+        }, this.props.onRegister)
       },
       ...this.props
     }

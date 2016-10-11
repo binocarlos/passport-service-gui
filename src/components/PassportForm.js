@@ -7,24 +7,31 @@ class PassportForm extends Component {
   
   render() {
 
-    var name = this.props.name || 'auth'
-    var styles = this.props.styles || {}
+    let name = this.props.name || 'auth'
+    let styles = this.props.styles || {}
+    let pageContent = this.props.pageContent || {}
     
     return (
 
-      <Tabs>
-        <Tab label="Login">
+      <Tabs value={this.props.page} onChange={this.props.changePage}>
+        <Tab label="Login" value="login">
           <div style={Object.assign({}, styles.loginwrapper, styles.formwrapper)}>
             <LoginForm 
+              onLogin={this.props.onLogin}
               url={this.props.url+'/login'}
-              reducername={this.props.reducername} />
+              reducername={this.props.reducername}>
+                {pageContent.login}
+            </LoginForm>
           </div>
         </Tab>
-        <Tab label="Register">
+        <Tab label="Register" value="register">
           <div style={Object.assign({}, styles.registerwrapper, styles.formwrapper)}>
             <RegisterForm 
+              onRegister={this.props.onRegister}
               url={this.props.url+'/register'}
-              reducername={this.props.reducername} />
+              reducername={this.props.reducername}>
+                {pageContent.register}
+            </RegisterForm>
           </div>
         </Tab>
       </Tabs>

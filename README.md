@@ -37,7 +37,7 @@ const store = finalCreateStore(reducer)
 ReactDOM.render(  
   <Provider store={store}>
     <MuiThemeProvider>
-      <UserSwitch url={PASSPORT_URL}>
+      <UserSwitch url={PASSPORT_URL} />
       <PassportForm 
         reducername="passport" 
         url="/v1/auth" />
@@ -61,16 +61,26 @@ All form components have the same 2 options:
 
 A full 2 tabbed form with login and register options.
 
+ * page - the current page the user is viewing
+ * changePage - a function to run when the form tab is changed
+ * onRegister - a function to run when the user has registered
+ * onLogin - a function to run when the user has logged in
  * styles - an object with styles that are used for the tabs
    * formwrapper - the div that wraps the login and register forms
+   * registerformwrapper - extra styles just for the register form
+   * loginformwrapper - extra styles just for the login form
 
 #### LoginForm
 
 A single tabbed form with just the login option.
 
+ * onLogin - a function to run when the user has logged in
+
 #### RegisterForm
 
 A single tabbed form with just the register option.
+
+ * onRegister - a function to run when the user has registered
 
 ## UserLoader
 
@@ -287,13 +297,13 @@ You can run the passport auth server using the `docker-compose.yml`
 
 Combine this with `npm run watch` for a hot reloading gui against a live server.
 
-```
+```bash
 $ npm run watch
 ```
 
 Then:
 
-```
+```bash
 $ docker-compose up
 ```
 
