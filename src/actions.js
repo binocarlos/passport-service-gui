@@ -262,3 +262,57 @@ export function logout(url, done) {
   }
 
 }
+
+
+/*
+
+  update
+  
+*/
+export const PASSPORT_UPDATE_REQUEST = 'PASSPORT_UPDATE_REQUEST'
+export const PASSPORT_UPDATE_RESPONSE = 'PASSPORT_UPDATE_RESPONSE'
+export const PASSPORT_UPDATE_ERROR = 'PASSPORT_UPDATE_ERROR'
+
+export function update(opts = {}, done) {
+
+  const url = opts.url
+  const data = opts.data
+  const meta = opts.meta
+
+  return dispatch => {
+
+    dispatch(requestAction(PASSPORT_UPDATE_REQUEST, url, data))
+
+    superagent
+      .post(url)
+      .set('Content-Type', 'application/json')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+
+        if(err){
+
+          // do we have a normal error or are there field errors 
+          // in the JSON packet
+          if(err.response && err.response.headers && err.response.headers['content-type']=='application/json'){
+            const servererrors = err.response.body && err.response.body.errors ? err.response.body.errors : {}
+            dispatch(formservererror('register', data, meta, servererrors))
+            dispatch(errorAction(PASSPORT_UPDATE_ERROR, 'server error'))
+          }
+          else{
+            dispatch(errorAction(PASSPORT_UPDATE_ERROR, err.message))
+          }
+
+          done && done(err)
+
+        }
+        else{
+          dispatch(responseAction(PASSPORT_UPDATE_RESPONSE, res.body))
+
+          done && done(null, res.body, opts)
+        }
+
+      })
+  }
+
+}

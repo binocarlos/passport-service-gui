@@ -72,15 +72,23 @@ A full 2 tabbed form with login and register options.
 
 #### LoginForm
 
-A single tabbed form with just the login option.
+A single tabbed form with just the login option.  This form is designed to speak to the `/login` endpoint.
 
  * onLogin - a function to run when the user has logged in
 
 #### RegisterForm
 
-A single tabbed form with just the register option.
+A single tabbed form with just the register option.  This form is designed to speak to the `/register` endpoint.
 
  * onRegister - a function to run when the user has registered
+
+#### UserForm
+
+A form for the user to update their details.  You pass a [biro](https://github.com/binocarlos/biro) schema as the `schema` property to control the fields that appear in the form.  This form is designed to speak to the `/details` endpoint.
+
+ * title - the title above the form
+ * onUpdate - a function to run when the user has updated their details
+ * schema - a [biro](https://github.com/binocarlos/biro) schema for the form
 
 ## UserLoader
 

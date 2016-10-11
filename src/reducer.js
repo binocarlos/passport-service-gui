@@ -21,12 +21,14 @@ function defaultApiState(){
 export const initialState = {
   forms:{
     login:defaultFormState(),
-    register:defaultFormState()
+    register:defaultFormState(),
+    details:defaultFormState()
   },
   api:{
     status:defaultApiState(),
     login:defaultApiState(),
     register:defaultApiState(),
+    details:defaultApiState(),
     logout:defaultApiState()
   }
 }
@@ -144,6 +146,7 @@ const handlers = {
   [actions.PASSPORT_STATUS_RESET]:resetStatusHandler,
   ...getHandlers('login'),
   ...getHandlers('register'),
+  ...getHandlers('details'),
   ...getHandlers('status'),
   ...getHandlers('logout')
 }
