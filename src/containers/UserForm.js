@@ -6,7 +6,7 @@ export default class UserForm extends Component {
 
   render() {
     const props = {
-      title:{this.props.title || 'User Details'},
+      title:this.props.title || 'User Details',
       name:'details',
       submit:(data, meta) => {
         return update({
