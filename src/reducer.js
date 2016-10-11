@@ -26,7 +26,8 @@ export const initialState = {
   api:{
     status:defaultApiState(),
     login:defaultApiState(),
-    register:defaultApiState()
+    register:defaultApiState(),
+    logout:defaultApiState()
   }
 }
 
@@ -143,7 +144,8 @@ const handlers = {
   [actions.PASSPORT_STATUS_RESET]:resetStatusHandler,
   ...getHandlers('login'),
   ...getHandlers('register'),
-  ...getHandlers('status')
+  ...getHandlers('status'),
+  ...getHandlers('logout')
 }
 
 export default function reducer(state = initialState, action = {}) {

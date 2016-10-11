@@ -229,3 +229,36 @@ export function status(url, done) {
   }
 
 }
+
+
+/*
+
+  logout
+  
+*/
+export const PASSPORT_LOGOUT_REQUEST = 'PASSPORT_LOGOUT_REQUEST'
+export const PASSPORT_LOGOUT_RESPONSE = 'PASSPORT_LOGOUT_RESPONSE'
+export const PASSPORT_LOGOUT_ERROR = 'PASSPORT_LOGOUT_ERROR'
+
+export function logout(url, done) {
+
+  return dispatch => {
+
+    dispatch(requestAction(PASSPORT_LOGOUT_REQUEST, url))
+
+    superagent
+      .get(url)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if(res.status<500){
+          dispatch(responseAction(PASSPORT_LOGOUT_RESPONSE, res.body))
+          done && done(res.body)
+        }
+        else{
+          dispatch(errorAction(PASSPORT_LOGOUT_ERROR, err ? err.message : res.body))
+        }
+      })
+
+  }
+
+}
