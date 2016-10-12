@@ -269,11 +269,11 @@ export function logout(url, done) {
   update
   
 */
-export const PASSPORT_UPDATE_REQUEST = 'PASSPORT_UPDATE_REQUEST'
-export const PASSPORT_UPDATE_RESPONSE = 'PASSPORT_UPDATE_RESPONSE'
-export const PASSPORT_UPDATE_ERROR = 'PASSPORT_UPDATE_ERROR'
+export const PASSPORT_DETAILS_REQUEST = 'PASSPORT_DETAILS_REQUEST'
+export const PASSPORT_DETAILS_RESPONSE = 'PASSPORT_DETAILS_RESPONSE'
+export const PASSPORT_DETAILS_ERROR = 'PASSPORT_DETAILS_ERROR'
 
-export function update(opts = {}, done) {
+export function details(opts = {}, done) {
 
   const url = opts.url
   const data = opts.data
@@ -281,7 +281,7 @@ export function update(opts = {}, done) {
 
   return dispatch => {
 
-    dispatch(requestAction(PASSPORT_UPDATE_REQUEST, url, data))
+    dispatch(requestAction(PASSPORT_DETAILS_REQUEST, url, data))
 
     superagent
       .post(url)
@@ -297,17 +297,17 @@ export function update(opts = {}, done) {
           if(err.response && err.response.headers && err.response.headers['content-type']=='application/json'){
             const servererrors = err.response.body && err.response.body.errors ? err.response.body.errors : {}
             dispatch(formservererror('register', data, meta, servererrors))
-            dispatch(errorAction(PASSPORT_UPDATE_ERROR, 'server error'))
+            dispatch(errorAction(PASSPORT_DETAILS_ERROR, 'server error'))
           }
           else{
-            dispatch(errorAction(PASSPORT_UPDATE_ERROR, err.message))
+            dispatch(errorAction(PASSPORT_DETAILS_ERROR, err.message))
           }
 
           done && done(err)
 
         }
         else{
-          dispatch(responseAction(PASSPORT_UPDATE_RESPONSE, res.body))
+          dispatch(responseAction(PASSPORT_DETAILS_RESPONSE, res.body))
 
           done && done(null, res.body, opts)
         }
