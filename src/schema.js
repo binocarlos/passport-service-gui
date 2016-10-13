@@ -9,13 +9,13 @@ export function validatePassword(val = ''){
   return null
 }
 
-const EMAIL_FIELD = {
+export const EMAIL_FIELD = {
   name:'email',
   type:'text',
   validate:validateEmail
 }
 
-const PASSWORD_FIELD = {
+export const PASSWORD_FIELD = {
   name:'password',
   type:'text',
   inputtype:'password',

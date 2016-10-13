@@ -316,3 +316,21 @@ export function details(opts = {}, done) {
   }
 
 }
+
+/*
+
+  load user details
+
+  when we edit the user details - the state lives in passport.forms.details
+  but we need to load the data from passport.api.status.data + the email address
+  this action pre-populates the form data with the user details
+  
+*/
+
+export const PASSPORT_LOAD_USER_DETAILS = 'PASSPORT_LOAD_USER_DETAILS'
+
+export function loaduserdetails() {
+  return {
+    type: PASSPORT_LOAD_USER_DETAILS
+  }
+}

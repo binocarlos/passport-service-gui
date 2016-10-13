@@ -90,6 +90,30 @@ A form for the user to update their details.  You pass a [biro](https://github.c
  * onUpdate - a function to run when the user has updated their details
  * schema - a [biro](https://github.com/binocarlos/biro) schema for the form
 
+You can use the following fields by importing the `schema`:
+
+```javascript
+import {
+  EMAIL_FIELD,
+  PASSWORD_FIELD
+} from 'passport-service-gui/lib/schema'
+
+const USER_FORM_SCHEMA = [
+  EMAIL_FIELD,
+  PASSWORD_FIELD,
+  {
+    name:'firstname',
+    type:'text'
+  },
+  {
+    name:'lastname',
+    type:'text'
+  }
+]
+
+export default USER_FORM_SCHEMA
+```
+
 ## UserLoader
 
 A container component that is used to load the current user status.

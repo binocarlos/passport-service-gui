@@ -113,6 +113,23 @@ function resetStatusHandler(state, action){
   })
 }
 
+function loadUserDetailsHandler(state, action){
+
+  const userData = state.api.status.data.user
+  let newData = userData.data || {}
+  newData.email = userData.email
+
+  return update(state, {
+    forms: {
+      details: {
+        data: {
+          $set:newData
+        }
+      }
+    }
+  })
+}
+
 function getHandlers(name, handlers = {}){
   const uppername = name.toUpperCase()
 
@@ -144,6 +161,7 @@ function getHandlers(name, handlers = {}){
 const handlers = {
   [actions.PASSPORT_FORM_UPDATE]:formHandler,
   [actions.PASSPORT_STATUS_RESET]:resetStatusHandler,
+  [actions.PASSPORT_LOAD_USER_DETAILS]:loadUserDetailsHandler,
   ...getHandlers('login'),
   ...getHandlers('register'),
   ...getHandlers('details'),

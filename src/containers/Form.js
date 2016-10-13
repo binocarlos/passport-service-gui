@@ -19,7 +19,7 @@ function mapStateToProps(state, ownProps) {
   // than 'passport'
   const reducername = ownProps.reducername || 'passport'
 
-  // this is 'login' or 'register'
+  // this is 'login' or 'register' or 'details'
   const formname = ownProps.name
   const formstate = state[reducername].forms[formname]
   const apistate = state[reducername].api[formname]
