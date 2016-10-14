@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { details, loaduserdetails } from '../actions'
+import { details, loaduserdetails, commituserdetails } from '../actions'
 import Form from './Form'
 
 export class UserForm extends Component {
@@ -19,7 +19,7 @@ export class UserForm extends Component {
           url:this.props.url,
           data:data,
           meta:meta
-        }, this.props.onUpdate)
+        }, this.props.onFormUpdate)
       },
       ...this.props
     }
@@ -38,6 +38,14 @@ function mapDispatchToProps(dispatch, ownProps) {
   return {
     loadUserData:function(data, meta){
       dispatch(loaduserdetails())
+    },
+    // the form has been comitted server-side
+    // we now need to update the passport.api.status.data
+    onFormUpdate:function(err, body, opts){
+      dispatch(commituserdetails())
+
+      // run the user callback
+      if(ownProps.onUpdate) ownProps.onUpdate(err, body, opts) 
     }
   }
 }

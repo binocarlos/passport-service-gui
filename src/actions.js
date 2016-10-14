@@ -309,7 +309,7 @@ export function details(opts = {}, done) {
         else{
           dispatch(responseAction(PASSPORT_DETAILS_RESPONSE, res.body))
 
-          done && done(null, res.body, opts)
+          done && done(null, res.body, opts)  
         }
 
       })
@@ -322,7 +322,7 @@ export function details(opts = {}, done) {
   load user details
 
   when we edit the user details - the state lives in passport.forms.details
-  but we need to load the data from passport.api.status.data + the email address
+  but we need to load the data from passport.api.status.data.user.data + passport.api.status.data.user.email
   this action pre-populates the form data with the user details
   
 */
@@ -332,5 +332,22 @@ export const PASSPORT_LOAD_USER_DETAILS = 'PASSPORT_LOAD_USER_DETAILS'
 export function loaduserdetails() {
   return {
     type: PASSPORT_LOAD_USER_DETAILS
+  }
+}
+
+/*
+
+  commit user details
+
+  the reverse of loaduserdetails - we want to write to passport.api.status.data.user.data
+  from passport.forms.details
+  
+*/
+
+export const PASSPORT_COMMIT_USER_DETAILS = 'PASSPORT_COMMIT_USER_DETAILS'
+
+export function commituserdetails() {
+  return {
+    type: PASSPORT_COMMIT_USER_DETAILS
   }
 }

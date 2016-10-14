@@ -130,6 +130,27 @@ function loadUserDetailsHandler(state, action){
   })
 }
 
+function commitUserDetailsHandler(state, action){
+
+  const formData = Object.assign({}, state.forms.details.data)
+  // this is readonly and lives up a level (in user.email not in user.data.email)
+  delete(formData.email)
+
+  return update(state, {
+    api: {
+      status: {
+        data: {
+          user: {
+            data: {
+              $set: formData
+            }
+          }
+        }
+      }
+    }
+  })
+}
+
 function getHandlers(name, handlers = {}){
   const uppername = name.toUpperCase()
 
@@ -162,6 +183,7 @@ const handlers = {
   [actions.PASSPORT_FORM_UPDATE]:formHandler,
   [actions.PASSPORT_STATUS_RESET]:resetStatusHandler,
   [actions.PASSPORT_LOAD_USER_DETAILS]:loadUserDetailsHandler,
+  [actions.PASSPORT_COMMIT_USER_DETAILS]:commitUserDetailsHandler,
   ...getHandlers('login'),
   ...getHandlers('register'),
   ...getHandlers('details'),
