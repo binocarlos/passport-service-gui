@@ -28,7 +28,7 @@ class Login extends Component {
             <Col md={2}></Col>
             <Col md={8}>
               <PassportForm 
-                url="/v1/auth" />
+                url="/auth/v1" />
             </Col>
             <Col md={2}></Col>
           </Row>

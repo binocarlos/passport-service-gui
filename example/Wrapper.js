@@ -10,7 +10,7 @@ class Wrapper extends Component {
     return (
 
       <UserSwitch 
-        url="/v1/auth/status" 
+        url="/auth/v1/status" 
         children={this.props.children}
         userview={App}
         guestview={Login} />

@@ -15,7 +15,7 @@ const styles = {
 class App extends Component {
   
   logout() {
-    document.location = '/v1/auth/logout'
+    document.location = '/auth/v1/logout'
   }
 
   render() {

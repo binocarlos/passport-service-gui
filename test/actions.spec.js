@@ -8,7 +8,7 @@ const middlewares = [ thunk ]
 const mockStore = configureMockStore(middlewares)
 
 const API_HOST = 'http://127.0.0.1'
-const API_URL = '/v1/auth'
+const API_URL = '/auth/v1'
 
 describe('actions', () => {
   it('should handle an update form action', () => {
@@ -51,7 +51,7 @@ describe('actions', () => {
 
     const expectedactions = [{
       "type": "PASSPORT_STATUS_REQUEST",
-      "url": "http://127.0.0.1/v1/auth/status"
+      "url": "http://127.0.0.1/auth/v1/status"
     }, {
       "type": "PASSPORT_STATUS_RESPONSE",
       "data": {

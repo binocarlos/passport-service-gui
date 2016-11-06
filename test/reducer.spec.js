@@ -2,7 +2,7 @@ import expect from 'expect'
 import reducer, { initialState } from '../src/reducer'
 import * as actions from '../src/actions'
 
-const URL = 'http://127.0.0.1/v1/auth/status'
+const URL = 'http://127.0.0.1/auth/v1/status'
 
 describe('reducer', () => {
   it('should return the initial state', () => {

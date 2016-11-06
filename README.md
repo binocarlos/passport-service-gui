@@ -22,7 +22,7 @@ import thunk from 'redux-thunk'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { passportreducer, PassportForm, UserSwitch } from 'passport-service-gui'
 
-const PASSPORT_URL = '/v1/auth'
+const PASSPORT_URL = '/auth/v1'
 
 const reducer = combineReducers({
   passport: passportreducer
@@ -40,7 +40,7 @@ ReactDOM.render(
       <UserSwitch url={PASSPORT_URL} />
       <PassportForm 
         reducername="passport" 
-        url="/v1/auth" />
+        url="/auth/v1" />
         
     </MuiThemeProvider>
   </Provider>,
@@ -54,7 +54,7 @@ NOTE - if you are using other biro forms in your project - you can use the stand
 
 All form components have the same 2 options:
 
- * url - the base url of the backend passport-service (default = '/v1/auth')
+ * url - the base url of the backend passport-service (default = '/auth/v1')
  * reducername - where you mounted the passport reducer (default = 'passport')
 
 #### PassportForm
@@ -120,7 +120,7 @@ A container component that is used to load the current user status.
 
 The user data can then be loaded from another container component.
 
- * url - the url used to load the user status ('/v1/auth/status')
+ * url - the url used to load the user status ('/auth/v1/status')
  * onLoaded - a function to run when the status has been loaded
 
 ```javascript
@@ -135,7 +135,7 @@ class Wrapper extends Component {
     return (
 
       <UserLoader 
-        url="/v1/auth/status">
+        url="/auth/v1/status">
         <App {...appprops} />
       </UserLoader>
 
@@ -206,7 +206,7 @@ class Wrapper extends Component {
     return (
 
       <UserSwitch 
-        url="/v1/auth/status" 
+        url="/auth/v1/status" 
         children={this.props.children}
         user={App}
         guest={Login} />
@@ -225,7 +225,7 @@ export default Wrapper
 
 props:
 
- * url - the base url of the backend passport-service (default = '/v1/auth')
+ * url - the base url of the backend passport-service (default = '/auth/v1')
  * reducername - where you mounted the passport reducer (default = 'passport')
  * user - the component to render if the user is logged in
  * guest - the component to render if the user is not logged in
@@ -306,7 +306,7 @@ An example data structure under the `passport` reducer key:
     },
     api:{                         // status of the 3 network endpoints
       register:{
-        url: '/v1/auth/register', // the url used for this request
+        url: '/auth/v1/register', // the url used for this request
         loading: false,           // currently loading
         loaded: true,             // has loaded
         error: null,              // error 
