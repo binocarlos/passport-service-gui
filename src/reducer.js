@@ -1,14 +1,14 @@
 import update from 'react/lib/update'
 import * as actions from './actions'
 
-function defaultFormState(){
+const defaultFormState = () => {
   return {
     data:{},
     meta:null
   }
 }
 
-function defaultApiState(){
+const defaultApiState = () => {
   return {
     url:null,
     loading:false,
@@ -33,7 +33,7 @@ export const initialState = {
   }
 }
 
-function requestHandler(name){
+const requestHandler = (name) => {
   return (state, action) => {
     return update(state, {
       api: {
@@ -51,7 +51,7 @@ function requestHandler(name){
   }
 }
 
-function responseHandler(name){
+const responseHandler = (name) => {
   return (state, action) => {
     return update(state, {
       api: {
@@ -68,7 +68,7 @@ function responseHandler(name){
   }
 }
 
-function errorHandler(name){
+const errorHandler = (name) => {
   return (state, action) => {
     return update(state, {
       api: {
@@ -85,7 +85,7 @@ function errorHandler(name){
   }
 }
 
-function formHandler(state, action){
+const formHandler = (state, action) => {
   return update(state, {
     forms: {
       [action.name]: {
@@ -100,7 +100,7 @@ function formHandler(state, action){
 
 // reset the 'have loaded user data'
 // this will re-trigger any UserSwitches
-function resetStatusHandler(state, action){
+const resetStatusHandler = (state, action) => {
   return update(state, {
     api: {
       status: {
@@ -113,11 +113,28 @@ function resetStatusHandler(state, action){
   })
 }
 
-function loadUserDetailsHandler(state, action){
+
+/*
+
+  once the user details are loaded - we write them to the form state for the updater
+  
+*/
+
+const TOP_LEVEL_USER_FIELDS = {
+  name:true,
+  email:true,
+  accesslevel:true
+}
+
+const loadUserDetailsHandler = (state, action) => {
 
   const userData = state.api.status.data.user
-  let newData = userData.data || {}
-  newData.email = userData.email
+
+  const newData = Object.assign({}, userData.data)
+
+  Object.keys(TOP_LEVEL_USER_FIELDS || {}).forEach((key) => {
+    newData[key] = userData[key]
+  })
 
   return update(state, {
     forms: {
@@ -130,11 +147,14 @@ function loadUserDetailsHandler(state, action){
   })
 }
 
-function commitUserDetailsHandler(state, action){
+
+const commitUserDetailsHandler = (state, action) => {
 
   const formData = Object.assign({}, state.forms.details.data)
-  // this is readonly and lives up a level (in user.email not in user.data.email)
-  delete(formData.email)
+
+  Object.keys(TOP_LEVEL_USER_FIELDS || {}).forEach((key) => {
+    delete(formData[key])
+  })
 
   return update(state, {
     api: {
@@ -151,7 +171,7 @@ function commitUserDetailsHandler(state, action){
   })
 }
 
-function getHandlers(name, handlers = {}){
+const getHandlers = (name, handlers = {}) => {
   const uppername = name.toUpperCase()
 
   const defaultHandlers = {
