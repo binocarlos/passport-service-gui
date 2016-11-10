@@ -219,7 +219,7 @@ export function status(url, done) {
       .end((err, res) => {
         if(res.status<500){
           dispatch(responseAction(PASSPORT_STATUS_RESPONSE, res.body))
-          done && done(res.body)
+          done && done(null, res.body)
         }
         else{
           dispatch(errorAction(PASSPORT_STATUS_ERROR, err ? err.message : res.body))
@@ -252,7 +252,7 @@ export function logout(url, done) {
       .end((err, res) => {
         if(res.status<500){
           dispatch(responseAction(PASSPORT_LOGOUT_RESPONSE, res.body))
-          done && done(res.body)
+          done && done(null, res.body)
         }
         else{
           dispatch(errorAction(PASSPORT_LOGOUT_ERROR, err ? err.message : res.body))
